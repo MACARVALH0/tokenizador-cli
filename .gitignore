@@ -30,3 +30,22 @@
 *.exe
 *.out
 *.app
+
+# Build folders
+/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# System files
+.DS_Store
+Thumbs.db
