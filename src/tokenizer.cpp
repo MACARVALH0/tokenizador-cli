@@ -181,6 +181,13 @@ static std::string processStringCase(std::string& line, std::string::iterator& i
 }
 
 
+/**
+ * @brief Função de tokenização da linha de comando.
+ * 
+ * @param line Uma std::string contendo a linha de comando recebida do usuário.
+ * @return std::vector<Token>
+ * @throws std::runtime_error
+ */
 std::vector<Token> tokenize(std::string& line)
 {
     // Vetor que armazenará os tokens gerados.
