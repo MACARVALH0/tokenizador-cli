@@ -1,4 +1,6 @@
-#include "tokenizer.hpp"
+#include "tokenizer-cli.hpp"
+#include <tokenizer-cli/ErrorMsg.hpp>
+// TODO Adicionar estas funções assistentes ao escopo correto.
 
 /**
  * @brief Verifica se um caractere é alfanumérico.
@@ -108,7 +110,7 @@ static std::string processFlagCase(std::string::iterator& it, std::string::itera
     if (dash_count > max_dash_count)
     {
         // Flag inválida.
-        ErrorMsg err;
+        tokenizer_cli::ErrorMsg err;
         err << "(Coluna " << col(l_begin, start) << ") Flag `" << buffer << "` inválida.\n";
         throw std::runtime_error(err.get());
     }
@@ -125,7 +127,7 @@ static std::string processFlagCase(std::string::iterator& it, std::string::itera
     if (buffer.size() == dash_count)
     {
         // Flag inválida (apenas hífens, sem identificador).
-        ErrorMsg err;
+        tokenizer_cli::ErrorMsg err;
         err << "(Coluna " << col(l_begin, start) << ") Flag `" << buffer << "` inválida (apenas hífens, sem identificador).\n";
         throw std::runtime_error(err.get());
     }
@@ -160,7 +162,7 @@ static std::string processStringCase(std::string& line, std::string::iterator& i
     // Passo 2: Confere se a string está fechada ou se alcançou o fim da linha de leitura.
     if(it == line_end)
     {
-        ErrorMsg err; // Logger de erro.
+        tokenizer_cli::ErrorMsg err; // Logger de erro.
         err << "(Coluna " << col(line_start, start) << ") Caractere `\"` de fechamento não encontrado (EOF).\n";
         throw std::runtime_error(err.get()); // Lança exceção.
     }
@@ -169,7 +171,7 @@ static std::string processStringCase(std::string& line, std::string::iterator& i
     const std::string trimmed_buffer = trim(buffer);
     if(trimmed_buffer.empty())
     {
-        ErrorMsg err; // Logger de erro.
+        tokenizer_cli::ErrorMsg err; // Logger de erro.
         err << "(Coluna " << col(line_start, start) << ") Strings vazias não são aceitas.";
         throw std::runtime_error(err.get()); // Lança exceção.
     }
@@ -210,7 +212,7 @@ std::vector<Token> tokenize(std::string& line)
 
                 if(state == OpTokenType::UNKNOWN)
                 {
-                    ErrorMsg err;
+                    tokenizer_cli::ErrorMsg err;
                     err << "(Coluna " << col(line_start, char_iterator) << ") Caractere `" << *char_iterator << "` não identificado.\n" ;
                     throw std::runtime_error(err.get());
                 }
@@ -255,7 +257,7 @@ std::vector<Token> tokenize(std::string& line)
     // Verifica se o buffer está vazio ao final da análise.
     if(!buffer.empty())
     {
-        ErrorMsg err;
+        tokenizer_cli::ErrorMsg err;
         err << "(Coluna " << col(line_start, char_iterator) << ") Buffer não vazio ao final do tokenizador: " << buffer << "\n";
         throw std::runtime_error(err.get());
     }
